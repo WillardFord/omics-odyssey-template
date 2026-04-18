@@ -1,24 +1,17 @@
 # Implementing with BioPython
 
-import sys
 from Bio.Align import substitution_matrices
 from Bio import Align
 
-user_mode = "local"
-user_match_score = 1.0
-user_mismatch_score = -1.0
-user_gap_score = -2.5
-user_sub_matrix_name = "BLOSUM62"
 
-user_substitution_matrix = substitution_matrices.load(user_sub_matrix_name)
+def align(target, query, sub_matrix_name="BLOSUM62"):
 
-target = "LAPRHKDEMETQCG"
-query = "LAPRHKDEMETQCG"
+    sub_matrix = substitution_matrices.load(sub_matrix_name)
+    aligner = Align.PairwiseAligner(mode="local", substitution_matrix=sub_matrix)
 
-aligner = Align.PairwiseAligner(mode=user_mode, match_score=user_match_score, mismatch_score=user_mismatch_score, gap_score=user_gap_score)
+    alignments = aligner.align(target, query)
 
-alignments = aligner.align(target, query)
-top_alignment = alignments[0]
+    top_alignment = alignments[0]
+    top_score = top_alignment.score
 
-print(f"Top Alignment Score: {top_alignment.score}\n")
-print(top_alignment)
+    return (top_score, top_alignment) # returns top score and top alignment object (needs to be printed to be visualised)
