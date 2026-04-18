@@ -17,6 +17,8 @@ query = "LAPRHKDEMETQCG"
 
 aligner = Align.PairwiseAligner(mode=user_mode, match_score=user_match_score, mismatch_score=user_mismatch_score, gap_score=user_gap_score)
 
-score = aligner.score(target, query)
+alignments = aligner.align(target, query)
+top_alignment = alignments[0]
 
-print(score)
+print(f"Top Alignment Score: {top_alignment.score}\n")
+print(top_alignment)
